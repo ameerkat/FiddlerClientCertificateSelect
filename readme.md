@@ -3,3 +3,6 @@ Fiddler client certificate select is a fiddler extension designed to allow users
 
 # Building
 You will have to modify the project references to refer to your local copy of fiddler. This extension was created against fiddler2 in Visual Studio 2013. More information about extending fiddler with .net can be found [here](http://docs.telerik.com/fiddler/extend-fiddler/extendwithdotnet).
+
+# References
+* [System.Net.Security.LocalCertificateSelectionCallback](https://msdn.microsoft.com/en-us/library/system.net.security.localcertificateselectioncallback(v=vs.110).aspx)

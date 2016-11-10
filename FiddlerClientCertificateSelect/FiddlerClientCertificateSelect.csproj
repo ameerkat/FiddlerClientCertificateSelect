@@ -50,7 +50,9 @@
     <Compile Include="CertificateSelector.Designer.cs">
       <DependentUpon>CertificateSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="FiddlerClientCertificateSelect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Assembly.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CertificateSelector.resx">
@@ -58,6 +60,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "%25userprofile%25\My Documents\Fiddler2\Scripts\$(TargetFilename)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
