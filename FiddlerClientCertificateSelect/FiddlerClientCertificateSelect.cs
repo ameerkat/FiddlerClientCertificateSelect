@@ -132,6 +132,12 @@ namespace FiddlerClientCertificateSelect
             X509Certificate remoteCertificate, 
             string[] acceptableIssuers)
         {
+            // No client certificate requested
+            if (remoteCertificate == null)
+            {
+                return null;
+            }
+
             if (defaultClientCertificate != null)
             {
                 return defaultClientCertificate;
