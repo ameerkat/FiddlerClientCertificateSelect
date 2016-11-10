@@ -1,0 +1,2 @@
+﻿# About Fiddler Client Certificate Select
+Fiddler client certificate select is a fiddler extension designed to allow users to select certificates directly from their certificate store for use with fiddler. If you use don't switch client certificates frequently you may be satisfied with the traditional method of attaching client certificates outlined [here](https://www.fiddlerbook.com/fiddler/help/httpsclientcerts.asp).
