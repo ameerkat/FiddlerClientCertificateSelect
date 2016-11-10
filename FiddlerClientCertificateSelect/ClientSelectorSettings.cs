@@ -45,18 +45,6 @@ namespace FiddlerClientCertificateSelect
             return null;
         }
 
-        private void SaveColumnSettings()
-        {
-            List<string> selectedColumns = new List<string>();
-            foreach(string item in listBox2.Items) 
-            {
-                selectedColumns.Add(item);
-            }
-
-            Properties.Settings.Default.DefaultSelectedColumns = string.Join(",", selectedColumns);
-            Properties.Settings.Default.Save();
-        }
-
         private void RemoveColumnButton_Click(object sender, EventArgs e)
         {
             string columnToRemoveName = (string)listBox2.SelectedItem;
@@ -69,8 +57,6 @@ namespace FiddlerClientCertificateSelect
 
                 // Add to unselected
                 listBox1.Items.Add(columnToRemoveName);
-
-                SaveColumnSettings();
             }
         }
 
@@ -86,8 +72,6 @@ namespace FiddlerClientCertificateSelect
 
                 // Remove from unselected
                 listBox1.Items.Remove(columnToAddName);
-
-                SaveColumnSettings();
             }
         }
     }

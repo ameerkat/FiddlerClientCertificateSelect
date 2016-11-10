@@ -33,6 +33,7 @@ namespace FiddlerClientCertificateSelect
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CertificateSelector));
             this.CertificateGridView = new System.Windows.Forms.DataGridView();
             this.CertificateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.SettingsButton = new System.Windows.Forms.Button();
@@ -66,12 +67,13 @@ namespace FiddlerClientCertificateSelect
             // 
             // SettingsButton
             // 
-            this.SettingsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SettingsButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.SettingsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F);
             this.SettingsButton.Location = new System.Drawing.Point(0, 0);
             this.SettingsButton.Name = "SettingsButton";
-            this.SettingsButton.Size = new System.Drawing.Size(180, 92);
+            this.SettingsButton.Size = new System.Drawing.Size(250, 92);
             this.SettingsButton.TabIndex = 2;
-            this.SettingsButton.Text = "Settings";
+            this.SettingsButton.Text = "Column Settings";
             this.SettingsButton.UseVisualStyleBackColor = true;
             this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
@@ -116,8 +118,11 @@ namespace FiddlerClientCertificateSelect
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "CertificateSelector";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select a Client Certificate";
+            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.CertificateGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CertificateBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);

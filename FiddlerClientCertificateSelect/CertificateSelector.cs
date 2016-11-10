@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,7 @@ namespace FiddlerClientCertificateSelect
         {
             ClientSelectorSettings settings = new ClientSelectorSettings(this.CertificateGridView.Columns);
             settings.ShowDialog();
+            this.SaveGridViewColumns();
         }
 
         private const string thumbprintColumnName = "Thumbprint";
@@ -78,6 +80,24 @@ namespace FiddlerClientCertificateSelect
             }
 
             this.Close();
+        }
+
+        private void SaveGridViewColumns()
+        {
+            List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
+            foreach (DataGridViewColumn item in this.CertificateGridView.Columns)
+            {
+                if (item.Visible)
+                {
+                    columns.Add(item);
+                }
+            }
+            var array = columns.ToArray();
+            Array.Sort(array, new FuncComparer<DataGridViewColumn>(
+                (x, y) => { return x.DisplayIndex - y.DisplayIndex; }));
+
+            Properties.Settings.Default.DefaultSelectedColumns = string.Join(",", array.Select(x => x.Name));
+            Properties.Settings.Default.Save();
         }
     }
 }

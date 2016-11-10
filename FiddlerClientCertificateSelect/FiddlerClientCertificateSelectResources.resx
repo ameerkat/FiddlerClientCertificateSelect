@@ -117,8 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ClearDefault" xml:space="preserve">
+    <value>Clear Global Client Certificate</value>
+  </data>
   <data name="ClientSelectorTitle" xml:space="preserve">
     <value>Select a Client Certificate For {0}</value>
     <comment>{0} is the target host</comment>
+  </data>
+  <data name="EnableClientCertificateSelection" xml:space="preserve">
+    <value>Client Certificate Select</value>
+  </data>
+  <data name="GlobalDefault" xml:space="preserve">
+    <value>Global Default</value>
+  </data>
+  <data name="SetDefault" xml:space="preserve">
+    <value>Set Global Client Certificate</value>
+    <comment>Menu item when the client cert isn't set</comment>
   </data>
 </root>

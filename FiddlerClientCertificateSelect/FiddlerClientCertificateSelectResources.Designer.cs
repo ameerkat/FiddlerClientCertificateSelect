@@ -61,11 +61,47 @@ namespace FiddlerClientCertificateSelect {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear Global Client Certificate.
+        /// </summary>
+        internal static string ClearDefault {
+            get {
+                return ResourceManager.GetString("ClearDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select a Client Certificate For {0}.
         /// </summary>
         internal static string ClientSelectorTitle {
             get {
                 return ResourceManager.GetString("ClientSelectorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client Certificate Select.
+        /// </summary>
+        internal static string EnableClientCertificateSelection {
+            get {
+                return ResourceManager.GetString("EnableClientCertificateSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Global Default.
+        /// </summary>
+        internal static string GlobalDefault {
+            get {
+                return ResourceManager.GetString("GlobalDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Global Client Certificate.
+        /// </summary>
+        internal static string SetDefault {
+            get {
+                return ResourceManager.GetString("SetDefault", resourceCulture);
             }
         }
     }
