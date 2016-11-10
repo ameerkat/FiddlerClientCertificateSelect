@@ -33,7 +33,6 @@ namespace FiddlerClientCertificateSelect
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CertificateSelector));
             this.CertificateGridView = new System.Windows.Forms.DataGridView();
             this.CertificateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.SettingsButton = new System.Windows.Forms.Button();
@@ -119,7 +118,6 @@ namespace FiddlerClientCertificateSelect
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "CertificateSelector";
             this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select a Client Certificate";
             this.TopMost = true;

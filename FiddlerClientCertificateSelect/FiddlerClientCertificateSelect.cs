@@ -76,11 +76,35 @@ namespace FiddlerClientCertificateSelect
             {
                 Enable();
             }
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.DefaultClientCertificate))
+            {
+                SetDefault(Properties.Settings.Default.DefaultClientCertificate);
+            }
         }
 
-        private void SetDefault_Click(object sender, EventArgs e)
+        private void SetDefault(string thumbprint = null)
         {
-            this.defaultClientCertificate = GetCertificate(null, FiddlerClientCertificateSelectResources.GlobalDefault);
+            if (thumbprint == null)
+            {
+                this.defaultClientCertificate = GetCertificate(null, FiddlerClientCertificateSelectResources.GlobalDefault);
+            }
+            else
+            {
+                X509Certificate2 certificate = null;
+                X509Store store = new X509Store();
+                store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
+                foreach(X509Certificate2 cert in store.Certificates) 
+                {
+                    if (string.Equals(cert.Thumbprint, thumbprint, StringComparison.OrdinalIgnoreCase)) 
+                    {
+                        certificate = cert;
+                    }
+                }
+
+                this.defaultClientCertificate = certificate;
+            }
+            
             if (this.defaultClientCertificate != null)
             {
                 this.defaultClientCertMenuItem.Text = ((X509Certificate2)defaultClientCertificate).Thumbprint;
@@ -89,12 +113,34 @@ namespace FiddlerClientCertificateSelect
             }
         }
 
-        private void ClearDefault_Click(object sender, EventArgs e)
+        private void SetDefault_Click(object sender, EventArgs e)
+        {
+            SetDefault();
+            if (this.defaultClientCertificate != null) 
+            {
+                Properties.Settings.Default.DefaultClientCertificate = ((X509Certificate2)this.defaultClientCertificate).Thumbprint;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.DefaultClientCertificate = null;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void ClearDefault()
         {
             this.defaultClientCertificate = null;
             this.defaultClientCertMenuItem.Text = FiddlerClientCertificateSelectResources.SetDefault;
             this.clearDefaultClientCertMenuItem.Enabled = false;
             this.defaultClientCertMenuItem.Checked = false;
+        }
+
+        private void ClearDefault_Click(object sender, EventArgs e)
+        {
+            ClearDefault();
+            Properties.Settings.Default.DefaultClientCertificate = null;
+            Properties.Settings.Default.Save();
         }
 
         private void Enable_Click(object sender, EventArgs e)
@@ -132,7 +178,7 @@ namespace FiddlerClientCertificateSelect
             X509Certificate remoteCertificate, 
             string[] acceptableIssuers)
         {
-            // No client certificate requested
+            // If a remote certificate has not been presented then the client certificate is not requested yet
             if (remoteCertificate == null)
             {
                 return null;

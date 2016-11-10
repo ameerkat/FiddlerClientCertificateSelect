@@ -3,10 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="DefaultSelectedColumns" Type="System.String" Scope="User">
-      <Value Profile="(Default)">HasPrivateKey,Thumbprint</Value>
+      <Value Profile="(Default)">HasPrivateKey,Thumbprint,Issuer</Value>
     </Setting>
     <Setting Name="Enabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DefaultClientCertificate" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

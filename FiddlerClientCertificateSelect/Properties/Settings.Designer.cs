@@ -25,7 +25,7 @@ namespace FiddlerClientCertificateSelect.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("HasPrivateKey,Thumbprint")]
+        [global::System.Configuration.DefaultSettingValueAttribute("HasPrivateKey,Thumbprint,Issuer")]
         public string DefaultSelectedColumns {
             get {
                 return ((string)(this["DefaultSelectedColumns"]));
@@ -44,6 +44,18 @@ namespace FiddlerClientCertificateSelect.Properties {
             }
             set {
                 this["Enabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultClientCertificate {
+            get {
+                return ((string)(this["DefaultClientCertificate"]));
+            }
+            set {
+                this["DefaultClientCertificate"] = value;
             }
         }
     }
