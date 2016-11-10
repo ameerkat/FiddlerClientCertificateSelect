@@ -53,9 +53,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="readme.md" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="CertificateSelector.resx">
       <DependentUpon>CertificateSelector.cs</DependentUpon>
     </EmbeddedResource>
