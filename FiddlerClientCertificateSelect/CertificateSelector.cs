@@ -14,8 +14,7 @@ namespace FiddlerClientCertificateSelect
     public partial class CertificateSelector : Form
     {
         private IList<X509Certificate> selectableClientCertificates;
-        private List<DataGridViewColumn> allColumns;
-        private DataGridViewColumnCollection selectedColumns;
+        public X509Certificate SelectedCertificate { get; set; }
 
         public CertificateSelector(X509CertificateCollection certificates, string host)
         {
@@ -32,18 +31,53 @@ namespace FiddlerClientCertificateSelect
             this.CertificateBindingSource.DataSource = certificates;
             this.CertificateGridView.DataSource = this.CertificateBindingSource;
             this.CertificateGridView.AutoGenerateColumns = true;
-            this.allColumns = new List<DataGridViewColumn>();
-            foreach (DataGridViewColumn column in this.CertificateGridView.Columns)
-            {
-                allColumns.Add(column);
-            }
 
-            selectedColumns = this.CertificateGridView.Columns;
+            // Set the default columns
+            var selectedColumnsString = Properties.Settings.Default.DefaultSelectedColumns;
+            if (selectedColumnsString != null)
+            {
+                var selectedColumnNames = selectedColumnsString.Split(new char[] { ',' });
+                foreach (DataGridViewColumn column in this.CertificateGridView.Columns)
+                {
+                    if (!selectedColumnNames.Contains(column.Name))
+                    {
+                        column.Visible = false;
+                    }
+                }
+
+                this.CertificateGridView.Refresh();
+            }
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)
         {
-            this.CertificateGridView.Columns.RemoveAt(0);
+            ClientSelectorSettings settings = new ClientSelectorSettings(this.CertificateGridView.Columns);
+            settings.ShowDialog();
+        }
+
+        private const string thumbprintColumnName = "Thumbprint";
+        private void SelectButton_Click(object sender, EventArgs e)
+        {
+            this.SelectedCertificate = null;
+            var selectedRows = this.CertificateGridView.SelectedRows;
+            if (selectedRows.Count == 1) {
+                var selectedRowEnumerator = selectedRows.GetEnumerator();
+                selectedRowEnumerator.MoveNext();
+                DataGridViewRow row = (DataGridViewRow)selectedRowEnumerator.Current;
+                string thumbprintValue = null;
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if(string.Equals(cell.OwningColumn.Name, thumbprintColumnName, StringComparison.OrdinalIgnoreCase)) {
+                        thumbprintValue = (string)cell.Value;
+                    }
+                }
+
+                if (thumbprintValue != null) {
+                    this.SelectedCertificate = selectableClientCertificates.FirstOrDefault(x => string.Equals(((X509Certificate2)x).Thumbprint, thumbprintValue, StringComparison.OrdinalIgnoreCase));
+                }
+            }
+
+            this.Close();
         }
     }
 }

@@ -40,7 +40,7 @@ namespace FiddlerClientCertificateSelect
 
             certificateSelectorForm = new CertificateSelector(collection, targetHost);
             var dialogResult = certificateSelectorForm.ShowDialog();
-            return null;
+            return certificateSelectorForm.SelectedCertificate;
         }
     }
 }

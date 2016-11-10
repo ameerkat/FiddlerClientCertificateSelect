@@ -51,6 +51,7 @@ namespace FiddlerClientCertificateSelect
             this.CertificateGridView.AllowUserToDeleteRows = false;
             this.CertificateGridView.AllowUserToOrderColumns = true;
             this.CertificateGridView.AutoGenerateColumns = false;
+            this.CertificateGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.CertificateGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.CertificateGridView.DataSource = this.CertificateBindingSource;
             this.CertificateGridView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -84,6 +85,7 @@ namespace FiddlerClientCertificateSelect
             this.SelectButton.TabIndex = 0;
             this.SelectButton.Text = "Select";
             this.SelectButton.UseVisualStyleBackColor = true;
+            this.SelectButton.Click += new System.EventHandler(this.SelectButton_Click);
             // 
             // panel1
             // 
@@ -116,7 +118,6 @@ namespace FiddlerClientCertificateSelect
             this.Name = "CertificateSelector";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select a Client Certificate";
-            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.CertificateGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CertificateBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);

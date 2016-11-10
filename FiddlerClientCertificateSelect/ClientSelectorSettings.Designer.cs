@@ -62,6 +62,7 @@
             this.AddColumnButton.TabIndex = 2;
             this.AddColumnButton.Text = "->";
             this.AddColumnButton.UseVisualStyleBackColor = true;
+            this.AddColumnButton.Click += new System.EventHandler(this.AddColumnButton_Click);
             // 
             // RemoveColumnButton
             // 
@@ -71,6 +72,7 @@
             this.RemoveColumnButton.TabIndex = 3;
             this.RemoveColumnButton.Text = "<-";
             this.RemoveColumnButton.UseVisualStyleBackColor = true;
+            this.RemoveColumnButton.Click += new System.EventHandler(this.RemoveColumnButton_Click);
             // 
             // UnselectedColumnsLabel
             // 
