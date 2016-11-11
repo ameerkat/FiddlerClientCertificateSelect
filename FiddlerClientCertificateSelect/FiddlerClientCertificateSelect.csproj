@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientCertificateSelector\BaseCertificateSelector.cs" />
     <Compile Include="ClientCertificateSelector\GridView\CertificateGridViewSelector.cs" />
     <Compile Include="ClientCertificateSelector\GridView\CertificateSelector.cs">
       <SubType>Form</SubType>

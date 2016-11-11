@@ -7,25 +7,11 @@ namespace FiddlerClientCertificateSelect
     /// that shows up in IE or chrome during client certificate selection) 
     /// to select a certificate.
     /// </summary>
-    public class WindowsDefaultCertificateSelector : IClientCertificateSelector
+    public class WindowsDefaultCertificateSelector : BaseCertificateSelector
     {
-        public X509Certificate2 GetCertificate(X509CertificateCollection localCertificates, string targetHost)
+        public override X509Certificate2 GetCertificate(X509CertificateCollection localCertificates, string targetHost)
         {
-            X509Certificate2Collection collection = new X509Certificate2Collection();
-            if (localCertificates != null && localCertificates.Count != 0)
-            {
-                foreach (var certificate in localCertificates)
-                {
-                    collection.Add(new X509Certificate2(certificate));
-                }
-            }
-            else
-            {
-                X509Store localPersonalStore = new X509Store();
-                localPersonalStore.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-                collection = localPersonalStore.Certificates;
-            }
-
+            X509Certificate2Collection collection = PopulateCertificateCollection(localCertificates);
             var selected = X509Certificate2UI.SelectFromCollection(collection, 
                 targetHost, 
                 string.Format(FiddlerClientCertificateSelectResources.ClientSelectorTitle, targetHost), 

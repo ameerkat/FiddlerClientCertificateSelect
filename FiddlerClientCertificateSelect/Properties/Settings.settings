@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DefaultSelectedColumns" Type="System.String" Scope="User">
-      <Value Profile="(Default)">HasPrivateKey,Thumbprint,Issuer</Value>
+      <Value Profile="(Default)">Thumbprint,Issuer</Value>
     </Setting>
     <Setting Name="Enabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

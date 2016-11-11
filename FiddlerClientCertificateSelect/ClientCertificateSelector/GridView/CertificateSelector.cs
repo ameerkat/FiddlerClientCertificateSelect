@@ -14,15 +14,15 @@ namespace FiddlerClientCertificateSelect
 {
     public partial class CertificateSelector : Form
     {
-        private IList<X509Certificate> selectableClientCertificates;
-        public X509Certificate SelectedCertificate { get; set; }
+        private IList<X509Certificate2> selectableClientCertificates;
+        public X509Certificate2 SelectedCertificate { get; set; }
 
-        public CertificateSelector(X509CertificateCollection certificates, string host)
+        public CertificateSelector(X509Certificate2Collection certificates, string host)
         {
             InitializeComponent();
             this.Text = string.Format(FiddlerClientCertificateSelectResources.ClientSelectorTitle, host);
 
-            this.selectableClientCertificates = new List<X509Certificate>();
+            this.selectableClientCertificates = new List<X509Certificate2>();
             foreach (var certificate in certificates)
             {
                 this.selectableClientCertificates.Add(certificate);
@@ -83,7 +83,7 @@ namespace FiddlerClientCertificateSelect
                 }
 
                 if (thumbprintValue != null) {
-                    this.SelectedCertificate = selectableClientCertificates.FirstOrDefault(x => string.Equals(((X509Certificate2)x).Thumbprint, thumbprintValue, StringComparison.OrdinalIgnoreCase));
+                    this.SelectedCertificate = selectableClientCertificates.FirstOrDefault(x => string.Equals(x.Thumbprint, thumbprintValue, StringComparison.OrdinalIgnoreCase));
                 }
             }
 

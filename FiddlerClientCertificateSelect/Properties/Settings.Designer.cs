@@ -25,7 +25,7 @@ namespace FiddlerClientCertificateSelect.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("HasPrivateKey,Thumbprint,Issuer")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Thumbprint,Issuer")]
         public string DefaultSelectedColumns {
             get {
                 return ((string)(this["DefaultSelectedColumns"]));
