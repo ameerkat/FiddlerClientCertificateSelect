@@ -55,11 +55,17 @@ namespace FiddlerClientCertificateSelectInstaller
                 InstallCurrentUserButton.Enabled = false;
                 InstallForAllUsers.Enabled = false;
             }
+            else if (isInstalledGlobally && !isInstalledLocally)
+            {
+                UninstallButton.Enabled = true;
+                InstallCurrentUserButton.Enabled = true;
+                InstallForAllUsers.Enabled = false;
+            }
 
             if (!IsAdmin)
             {
                 InstallForAllUsers.Enabled = false;
-                if (!isInstalledLocally && isInstalledGlobally)
+                if (!isInstalledLocally)
                 {
                     UninstallButton.Enabled = false;
                 }
