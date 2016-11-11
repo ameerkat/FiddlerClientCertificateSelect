@@ -41,12 +41,6 @@ namespace FiddlerClientCertificateSelect
 
         public void OnLoad()
         {
-            secondaryMenuItems = new MenuItem[] { 
-                useDefaultGlobalClientCertificate, 
-                defaultClientCertMenuItem, 
-                clearDefaultClientCertMenuItem 
-            };
-
             clientCertificateSelector = new CertificateGridViewSelector();
 
             rulesParentMenu = null;
@@ -73,6 +67,12 @@ namespace FiddlerClientCertificateSelect
                 clearDefaultClientCertMenuItem = new MenuItem(FiddlerClientCertificateSelectResources.ClearDefault, ClearDefault_Click);
                 clearDefaultClientCertMenuItem.Enabled = false;
                 rulesParentMenu.MenuItems.Add(clearDefaultClientCertMenuItem);
+
+                secondaryMenuItems = new MenuItem[] { 
+                    useDefaultGlobalClientCertificate, 
+                    defaultClientCertMenuItem, 
+                    clearDefaultClientCertMenuItem 
+                };
             }
 
             if (Properties.Settings.Default.Enabled)
@@ -111,7 +111,8 @@ namespace FiddlerClientCertificateSelect
 
             foreach (var menuItem in secondaryMenuItems)
             {
-                menuItem.Enabled = false;
+                if (menuItem != null)
+                    menuItem.Enabled = false;
             }
         }
 
@@ -136,10 +137,11 @@ namespace FiddlerClientCertificateSelect
 
             foreach (var menuItem in secondaryMenuItems)
             {
-                menuItem.Enabled = true;
+                if (menuItem != null)
+                    menuItem.Enabled = true;
             }
 
-            if (defaultClientCertificate == null)
+            if (defaultClientCertificate == null && clearDefaultClientCertMenuItem != null)
             {
                 clearDefaultClientCertMenuItem.Enabled = false;
             }
