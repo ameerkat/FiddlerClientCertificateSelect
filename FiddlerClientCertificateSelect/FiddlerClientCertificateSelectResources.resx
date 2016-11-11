@@ -125,7 +125,7 @@
     <comment>{0} is the target host</comment>
   </data>
   <data name="EnableClientCertificateSelection" xml:space="preserve">
-    <value>Client Certificate Select</value>
+    <value>Use Client Certificate Select</value>
   </data>
   <data name="GlobalDefault" xml:space="preserve">
     <value>Global Default</value>

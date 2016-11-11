@@ -63,6 +63,7 @@ namespace FiddlerClientCertificateSelect
             this.CertificateGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.CertificateGridView.Size = new System.Drawing.Size(1658, 835);
             this.CertificateGridView.TabIndex = 0;
+            this.CertificateGridView.KeyPress += CertificateGridView_KeyPress;
             // 
             // SettingsButton
             // 

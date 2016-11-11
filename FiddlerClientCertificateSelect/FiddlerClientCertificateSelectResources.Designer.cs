@@ -79,7 +79,7 @@ namespace FiddlerClientCertificateSelect {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Client Certificate Select.
+        ///   Looks up a localized string similar to Use Client Certificate Select.
         /// </summary>
         internal static string EnableClientCertificateSelection {
             get {

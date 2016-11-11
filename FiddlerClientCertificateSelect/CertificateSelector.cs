@@ -50,6 +50,14 @@ namespace FiddlerClientCertificateSelect
             }
         }
 
+        private void CertificateGridView_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                this.SelectButton_Click(sender, e);
+            }
+        }
+
         private void SettingsButton_Click(object sender, EventArgs e)
         {
             ClientSelectorSettings settings = new ClientSelectorSettings(this.CertificateGridView.Columns);
