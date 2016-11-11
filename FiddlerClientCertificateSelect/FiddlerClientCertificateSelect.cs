@@ -10,6 +10,7 @@ namespace FiddlerClientCertificateSelect
 {
     public class FiddlerClientCertificateSelect : IFiddlerExtension
     {
+        private bool previousProviderSet = false;
         private IClientCertificateSelector clientCertificateSelector;
         private LocalCertificateSelectionCallback previousClientCertificateProvider;
         private X509Certificate defaultClientCertificate;
@@ -29,18 +30,52 @@ namespace FiddlerClientCertificateSelect
             {
                 enableMenuItem.Checked = false;
             }
+
+            if (useDefault != null)
+            {
+                useDefault.Enabled = false;
+            }
+
+            if (defaultClientCertMenuItem != null)
+            {
+                defaultClientCertMenuItem.Enabled = false;
+            }
+
+            if (clearDefaultClientCertMenuItem != null)
+            {
+                clearDefaultClientCertMenuItem.Enabled = false;
+            }
         }
 
         private void Enable() 
         {
             enabled = true;
-            if (previousClientCertificateProvider == null)
+            if (!previousProviderSet)
+            {
                 previousClientCertificateProvider = Fiddler.FiddlerApplication.ClientCertificateProvider;
+                previousProviderSet = true;
+            }
+
             Fiddler.FiddlerApplication.ClientCertificateProvider = this.LocalCertificateSelectionCallback;
 
             if (enableMenuItem != null)
             {
                 enableMenuItem.Checked = true;
+            }
+
+            if (useDefault != null)
+            {
+                useDefault.Enabled = true;
+            }
+
+            if (defaultClientCertMenuItem != null)
+            {
+                defaultClientCertMenuItem.Enabled = true;
+            }
+
+            if (clearDefaultClientCertMenuItem != null && defaultClientCertificate != null)
+            {
+                clearDefaultClientCertMenuItem.Enabled = true;
             }
         }
 
@@ -86,6 +121,10 @@ namespace FiddlerClientCertificateSelect
             if (Properties.Settings.Default.Enabled)
             {
                 Enable();
+            }
+            else
+            {
+                Disable();
             }
 
             if (Properties.Settings.Default.UseWindowsUI)
