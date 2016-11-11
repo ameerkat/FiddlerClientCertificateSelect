@@ -104,5 +104,14 @@ namespace FiddlerClientCertificateSelect {
                 return ResourceManager.GetString("SetDefault", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Windows Default Selection UI.
+        /// </summary>
+        internal static string UseWindowsDefaultUI {
+            get {
+                return ResourceManager.GetString("UseWindowsDefaultUI", resourceCulture);
+            }
+        }
     }
 }

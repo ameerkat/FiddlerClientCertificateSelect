@@ -58,5 +58,17 @@ namespace FiddlerClientCertificateSelect.Properties {
                 this["DefaultClientCertificate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseWindowsUI {
+            get {
+                return ((bool)(this["UseWindowsUI"]));
+            }
+            set {
+                this["UseWindowsUI"] = value;
+            }
+        }
     }
 }
