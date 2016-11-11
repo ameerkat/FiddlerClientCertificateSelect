@@ -9,8 +9,10 @@ You will have to modify the project references to refer to your local copy of th
 
 # Usage
 Client certificate select adds 3 menu options to the "Rules" menu
-## Client Certificate Select
+## Use Client Certificate Select
 This is whether or not to use the client certificate select functionality at all. When disable the menu item will appear without a check mark next to it. To enable click on the menu item "Client Certificate Select", and a check mark will appear. To disable click again. Enablement status will be maintained when reopening fiddler. When this option is disabled, the fiddler extension will be disabled and the client certificate selection mechanism will default to the fiddler default behavior.
+## Use Windows Default UI
+If selected, when a client certificate is requested then the default windows UI will pop up for client certificate selection. Otherwise the customizable grid view will pop up.
 ## Set Global Client Certificate
 Please note this only works when "Client Certificate Select" is enabled. When there is no client certificate selected this menu item will display "Set Global Client Certificate", when set it will display the thumbprint of the selected certificate. Clicking on the menu item regardless of the state will bring up the client certificate selection grid. Setting a global client certificate will cause Fiddler Client Certificate Select to not prompt you for a certificate when requested, rather it will always pass the certificate you have selected as the client certificate.
 ## Clear Global Client Certificate
