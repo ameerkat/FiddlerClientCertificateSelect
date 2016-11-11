@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace FiddlerClientCertificateSelect
 {
+    /// <summary>
+    /// Uses the customizable grid view certification selection
+    /// </summary>
     public class CertificateGridViewSelector : IClientCertificateSelector
     {
         public X509Certificate2 GetCertificate(X509CertificateCollection localCertificates, string targetHost)

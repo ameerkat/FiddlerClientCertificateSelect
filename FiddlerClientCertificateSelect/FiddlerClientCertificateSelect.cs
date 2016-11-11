@@ -10,78 +10,30 @@ namespace FiddlerClientCertificateSelect
 {
     public class FiddlerClientCertificateSelect : IFiddlerExtension
     {
-        private bool previousProviderSet = false;
+        private bool isPreviousProviderSet = false;
+        private LocalCertificateSelectionCallback previousClientCertificateProvider = null;
+
         private IClientCertificateSelector clientCertificateSelector;
-        private LocalCertificateSelectionCallback previousClientCertificateProvider;
-        private X509Certificate defaultClientCertificate;
-        private bool enabled;
+        private X509Certificate defaultClientCertificate = null;
+        private bool isExtensionEnabled;
+
+        /*
+         * Menu Items
+         */
+        private const string parentMenuIdentifier = "&Rules";
 
         private MenuItem rulesParentMenu;
         private MenuItem enableMenuItem;
-        private MenuItem useDefault;
+        private MenuItem useDefaultGlobalClientCertificate;
         private MenuItem defaultClientCertMenuItem;
         private MenuItem clearDefaultClientCertMenuItem;
+        private MenuItem[] secondaryMenuItems;
 
-        private void Disable() 
-        {
-            enabled = false;
-            Fiddler.FiddlerApplication.ClientCertificateProvider = previousClientCertificateProvider;
-            if (enableMenuItem != null)
-            {
-                enableMenuItem.Checked = false;
-            }
-
-            if (useDefault != null)
-            {
-                useDefault.Enabled = false;
-            }
-
-            if (defaultClientCertMenuItem != null)
-            {
-                defaultClientCertMenuItem.Enabled = false;
-            }
-
-            if (clearDefaultClientCertMenuItem != null)
-            {
-                clearDefaultClientCertMenuItem.Enabled = false;
-            }
-        }
-
-        private void Enable() 
-        {
-            enabled = true;
-            if (!previousProviderSet)
-            {
-                previousClientCertificateProvider = Fiddler.FiddlerApplication.ClientCertificateProvider;
-                previousProviderSet = true;
-            }
-
-            Fiddler.FiddlerApplication.ClientCertificateProvider = this.LocalCertificateSelectionCallback;
-
-            if (enableMenuItem != null)
-            {
-                enableMenuItem.Checked = true;
-            }
-
-            if (useDefault != null)
-            {
-                useDefault.Enabled = true;
-            }
-
-            if (defaultClientCertMenuItem != null)
-            {
-                defaultClientCertMenuItem.Enabled = true;
-            }
-
-            if (clearDefaultClientCertMenuItem != null && defaultClientCertificate != null)
-            {
-                clearDefaultClientCertMenuItem.Enabled = true;
-            }
-        }
+        #region IFiddlerExtension
 
         public void OnBeforeUnload()
         {
-            Properties.Settings.Default.Enabled = enabled;
+            Properties.Settings.Default.Enabled = isExtensionEnabled;
             Properties.Settings.Default.UseWindowsUI = this.clientCertificateSelector is WindowsDefaultCertificateSelector;
             Properties.Settings.Default.Save();
 
@@ -90,12 +42,18 @@ namespace FiddlerClientCertificateSelect
 
         public void OnLoad()
         {
+            secondaryMenuItems = new MenuItem[] { 
+                useDefaultGlobalClientCertificate, 
+                defaultClientCertMenuItem, 
+                clearDefaultClientCertMenuItem 
+            };
+
             clientCertificateSelector = new CertificateGridViewSelector();
 
             rulesParentMenu = null;
             foreach (MenuItem menuItem in Fiddler.FiddlerApplication.UI.Menu.MenuItems)
             {
-                if (menuItem.Text == "&Rules")
+                if (string.Equals(menuItem.Text, parentMenuIdentifier))
                     rulesParentMenu = menuItem;
             }
 
@@ -107,8 +65,8 @@ namespace FiddlerClientCertificateSelect
                 enableMenuItem = new MenuItem(FiddlerClientCertificateSelectResources.EnableClientCertificateSelection, Enable_Click);
                 rulesParentMenu.MenuItems.Add(enableMenuItem);
 
-                useDefault = new MenuItem(FiddlerClientCertificateSelectResources.UseWindowsDefaultUI, Use_Windows_UI_Click);
-                rulesParentMenu.MenuItems.Add(useDefault);
+                useDefaultGlobalClientCertificate = new MenuItem(FiddlerClientCertificateSelectResources.UseWindowsDefaultUI, Use_Windows_UI_Click);
+                rulesParentMenu.MenuItems.Add(useDefaultGlobalClientCertificate);
 
                 defaultClientCertMenuItem = new MenuItem(FiddlerClientCertificateSelectResources.SetDefault, SetDefault_Click);
                 rulesParentMenu.MenuItems.Add(defaultClientCertMenuItem);
@@ -134,11 +92,65 @@ namespace FiddlerClientCertificateSelect
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.DefaultClientCertificate))
             {
-                SetDefault(Properties.Settings.Default.DefaultClientCertificate);
+                SetGlobalDefaultClientCertificate(Properties.Settings.Default.DefaultClientCertificate);
             }
         }
 
-        private void SetDefault(string thumbprint = null)
+        #endregion IFiddlerExtension
+
+        /// <summary>
+        /// Disables the extension, falling back to the previous callback
+        /// </summary>
+        private void Disable() 
+        {
+            isExtensionEnabled = false;
+            Fiddler.FiddlerApplication.ClientCertificateProvider = previousClientCertificateProvider;
+            if (enableMenuItem != null)
+            {
+                enableMenuItem.Checked = false;
+            }
+
+            foreach (var menuItem in secondaryMenuItems)
+            {
+                menuItem.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Enables the extension, directing the callback to the appropriate cert selection UI
+        /// </summary>
+        private void Enable() 
+        {
+            isExtensionEnabled = true;
+            if (!isPreviousProviderSet)
+            {
+                previousClientCertificateProvider = Fiddler.FiddlerApplication.ClientCertificateProvider;
+                isPreviousProviderSet = true;
+            }
+
+            Fiddler.FiddlerApplication.ClientCertificateProvider = this.LocalCertificateSelectionCallback;
+
+            if (enableMenuItem != null)
+            {
+                enableMenuItem.Checked = true;
+            }
+
+            foreach (var menuItem in secondaryMenuItems)
+            {
+                menuItem.Enabled = true;
+            }
+
+            if (defaultClientCertificate == null)
+            {
+                clearDefaultClientCertMenuItem.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Sets the default certificate
+        /// </summary>
+        /// <param name="thumbprint"></param>
+        private void SetGlobalDefaultClientCertificate(string thumbprint = null)
         {
             if (thumbprint == null)
             {
@@ -167,10 +179,23 @@ namespace FiddlerClientCertificateSelect
                 this.defaultClientCertMenuItem.Checked = true;
             }
         }
+        
+        /// <summary>
+        /// Clears the global default client certificate
+        /// </summary>
+        private void ClearGlobalDefaultClientCertificate()
+        {
+            this.defaultClientCertificate = null;
+            this.defaultClientCertMenuItem.Text = FiddlerClientCertificateSelectResources.SetDefault;
+            this.clearDefaultClientCertMenuItem.Enabled = false;
+            this.defaultClientCertMenuItem.Checked = false;
+        }
+
+        #region Menu Item Event Handlers
 
         private void SetDefault_Click(object sender, EventArgs e)
         {
-            SetDefault();
+            SetGlobalDefaultClientCertificate();
             if (this.defaultClientCertificate != null) 
             {
                 Properties.Settings.Default.DefaultClientCertificate = ((X509Certificate2)this.defaultClientCertificate).Thumbprint;
@@ -183,24 +208,16 @@ namespace FiddlerClientCertificateSelect
             }
         }
 
-        private void ClearDefault()
-        {
-            this.defaultClientCertificate = null;
-            this.defaultClientCertMenuItem.Text = FiddlerClientCertificateSelectResources.SetDefault;
-            this.clearDefaultClientCertMenuItem.Enabled = false;
-            this.defaultClientCertMenuItem.Checked = false;
-        }
-
         private void ClearDefault_Click(object sender, EventArgs e)
         {
-            ClearDefault();
+            ClearGlobalDefaultClientCertificate();
             Properties.Settings.Default.DefaultClientCertificate = null;
             Properties.Settings.Default.Save();
         }
 
         private void Enable_Click(object sender, EventArgs e)
         {
-            if (this.enabled)
+            if (this.isExtensionEnabled)
             {
                 this.Disable();
             }
@@ -215,14 +232,16 @@ namespace FiddlerClientCertificateSelect
             if (this.clientCertificateSelector is WindowsDefaultCertificateSelector)
             {
                 this.clientCertificateSelector = new CertificateGridViewSelector();
-                useDefault.Checked = false;
+                useDefaultGlobalClientCertificate.Checked = false;
             }
             else
             {
                 this.clientCertificateSelector = new WindowsDefaultCertificateSelector();
-                useDefault.Checked = true;
+                useDefaultGlobalClientCertificate.Checked = true;
             }
         }
+
+        #endregion Menu Item Event Handlers
 
         public X509Certificate LocalCertificateSelectionCallback(object sender, 
             string targetHost, 

@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace FiddlerClientCertificateSelect
 {
+    /// <summary>
+    /// Uses the default windows x509 certificate selection UI (e.g. the one
+    /// that shows up in IE or chrome during client certificate selection) 
+    /// to select a certificate.
+    /// </summary>
     public class WindowsDefaultCertificateSelector : IClientCertificateSelector
     {
         public X509Certificate2 GetCertificate(X509CertificateCollection localCertificates, string targetHost)
