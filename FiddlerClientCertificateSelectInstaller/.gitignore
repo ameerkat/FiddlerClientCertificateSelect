@@ -1,0 +1,2 @@
+# The dll gets copied at build time automatically
+Embedded/.*
