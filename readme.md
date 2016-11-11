@@ -17,6 +17,3 @@ If selected, when a client certificate is requested then the default windows UI 
 Please note this only works when "Client Certificate Select" is enabled. When there is no client certificate selected this menu item will display "Set Global Client Certificate", when set it will display the thumbprint of the selected certificate. Clicking on the menu item regardless of the state will bring up the client certificate selection grid. Setting a global client certificate will cause Fiddler Client Certificate Select to not prompt you for a certificate when requested, rather it will always pass the certificate you have selected as the client certificate.
 ## Clear Global Client Certificate
 This is only enabled when a client certificate is set. This clears the default client certificate.
-
-# References
-* [System.Net.Security.LocalCertificateSelectionCallback](https://msdn.microsoft.com/en-us/library/system.net.security.localcertificateselectioncallback(v=vs.110).aspx)
