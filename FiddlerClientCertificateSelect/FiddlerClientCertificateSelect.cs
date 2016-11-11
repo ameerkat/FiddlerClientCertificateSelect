@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using Fiddler;
+﻿using Fiddler;
+using System;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Collections.Generic;
+using System.Windows.Forms;
 
 [assembly: Fiddler.RequiredVersion("2.2.8.6")]
 namespace FiddlerClientCertificateSelect
